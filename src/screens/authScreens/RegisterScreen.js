@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const BottomNavigation = () => {
+const RegisterScreen = () => {
   return (
     <View>
-      <Text>BottomNavigation</Text>
+      <Text>RegisterScreen</Text>
     </View>
   )
 }
 
-export default BottomNavigation
+export default RegisterScreen
 
 const styles = StyleSheet.create({})
