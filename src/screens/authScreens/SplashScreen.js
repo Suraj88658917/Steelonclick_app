@@ -1,22 +1,25 @@
 import { StyleSheet, Text, View  } from 'react-native'
 import React , {useEffect} from 'react';
 import Logo from '../../assets/images/logo.svg'
+import LinearGradient from 'react-native-linear-gradient';
 
 const SplashScreen = ({navigation}) => {
   
   useEffect( () => {
     const timer = setTimeout(() => {
       navigation.replace("OnbordingScreen")
-    },3000);
+    },2000);
 
     return () => clearTimeout(timer);
   },[]);
 
 
   return (
-    <View style={styles.container}>
-      <Logo width={220} height={230} />
-    </View>
+    <LinearGradient 
+     colors={['#E8F9FF' , '#FFFFFF']}
+    style={styles.container}>
+      <Logo style={styles.box} />
+    </LinearGradient>
   )
 }
 
@@ -27,6 +30,9 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent:"center",
     alignItems:"center",
-    backgroundColor:"#fff"
+  },
+  box:{
+     width: 266,
+    height: 64,
   }
 })
