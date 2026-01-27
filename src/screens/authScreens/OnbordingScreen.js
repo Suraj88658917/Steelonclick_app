@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, {useRef, useState} from 'react';
 import {View,Text,FlatList,StyleSheet,Dimensions,TouchableOpacity,} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Logo from '../../assets/images/logo.svg'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window');
 
@@ -27,6 +28,18 @@ const Onboarding = ({ navigation }) => {
   const [index, setIndex] = useState(0);
   const flatListRef = useRef();
 
+  // skip onbording Screen ----------
+
+const SkipOnbording = async() => {
+  try{
+  await AsyncStorage.setItem("OnbordingScreen" , JSON.stringify(true));
+  navigation.replace("LoginScreen");
+  }
+  catch(error){
+    console.log(error)
+  }
+}
+
   // Change index when slide changes
   const onScrollEnd = (e) => {
     const slideIndex = Math.round(
@@ -43,7 +56,7 @@ const Onboarding = ({ navigation }) => {
         animated: true,
       });
     } else {
-      navigation.replace('LoginScreen');
+      SkipOnbording();
     }
   };
 
@@ -93,7 +106,7 @@ const Onboarding = ({ navigation }) => {
   {/* Hide Skip on last slide but keep space */}
   <View style={{ height: 20 }}>
     {index !== slides.length - 1 && (
-      <TouchableOpacity onPress={() => navigation.replace('LoginScreen')}>
+      <TouchableOpacity onPress={SkipOnbording}>
         <Text style={styles.skip}>Skip</Text>
       </TouchableOpacity>
     )}
@@ -124,7 +137,6 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 30,
-    fontWeight: '700',
     textAlign: 'center',
     marginBottom: 12,
     fontFamily: 'Poppins-Bold',

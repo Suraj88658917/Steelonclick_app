@@ -2,17 +2,32 @@ import { StyleSheet, Text, View  } from 'react-native'
 import React , {useEffect} from 'react';
 import Logo from '../../assets/images/logo.svg'
 import LinearGradient from 'react-native-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SplashScreen = ({navigation}) => {
+
   
+  const checkOnbording = async() => {
+    try{
+      const value = await AsyncStorage.getItem("OnbordingScreen");
+
+      setTimeout( () => {
+        if(value === 'true'){
+          navigation.replace("LoginScreen");
+        }
+        else{
+          navigation.replace("OnbordingScreen");
+        }
+      },2000);
+    }
+    catch(error){
+      console.log("error Storage" , error)
+    }
+  }
+ 
   useEffect( () => {
-    const timer = setTimeout(() => {
-      navigation.replace("OnbordingScreen")
-    },2000);
-
-    return () => clearTimeout(timer);
-  },[]);
-
+    checkOnbording();
+  },[])
 
   return (
     <LinearGradient 

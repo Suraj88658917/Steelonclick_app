@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity,  } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, } from 'react-native';
 import CountryPicker from 'react-native-country-picker-modal';
 import { useNavigation } from '@react-navigation/native';
 
@@ -13,7 +13,7 @@ import Back from '../../assets/images/back.svg';
 
 const LoginScreen = () => {
 
-   const navigation = useNavigation();
+  const navigation = useNavigation();
 
   const [countryCode, setCountryCode] = useState('IN');
   const [callingCode, setCallingCode] = useState('91');
@@ -71,34 +71,35 @@ const LoginScreen = () => {
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate("WelcomeScreen")}>
-        <View style={{flexDirection:"row" ,alignSelf:"center"}}>
+      <View style={{ flexDirection: "row", alignSelf: "center" }}>
         <Text style={styles.accountText}> Don't have an account ? </Text>
-        <Text style={styles.accountText1}> Register here</Text>
-        </View>
-      </TouchableOpacity>
 
-      <Text style={{fontSize:15, fontWeight:"400" , fontFamily:"Poppins-Bold" , lineHeight:19 , top:35 , alignSelf:"center"}}>or</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("WelcomeScreen")}>
+          <Text style={styles.accountText1}> Register here</Text>
+        </TouchableOpacity>
+
+      </View>
+      <Text style={{ fontSize: 15, fontWeight: "400", fontFamily: "Poppins-Bold", lineHeight: 19, top: 35, alignSelf: "center" }}>or</Text>
 
       <View style={styles.socialRow}>
-  {/* Google Login */}
-  <TouchableOpacity
-    style={styles.socialBtn}
-    onPress={() => console.log('Google Login')}
-  >
-    <Google width={16} height={16} />
-    <Text style={styles.socialText}>Login via Google</Text>
-  </TouchableOpacity>
+        {/* Google Login */}
+        <TouchableOpacity
+          style={styles.socialBtn}
+          onPress={() => console.log('Google Login')}
+        >
+          <Google width={16} height={16} />
+          <Text style={styles.socialText}>Login via Google</Text>
+        </TouchableOpacity>
 
-  {/* Guest Login */}
-  <TouchableOpacity
-    style={styles.socialBtn}
-    onPress={() => navigation.replace('HomeScreen')}
-  >
-    <Guest width={16} height={16} />
-    <Text style={styles.socialText}>Continue as Guest</Text>
-  </TouchableOpacity>
-</View>
+        {/* Guest Login */}
+        <TouchableOpacity
+          style={styles.socialBtn}
+          onPress={() => navigation.replace('HomeScreen')}
+        >
+          <Guest width={16} height={16} />
+          <Text style={styles.socialText}>Continue as Guest</Text>
+        </TouchableOpacity>
+      </View>
 
 
     </View>
@@ -187,36 +188,36 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderWidth: 0.5
   },
- buttonContainer: {
-  backgroundColor: '#03A4E6',
-  width: 378,
-  height: 59.53,
-  borderRadius: 15,
-  marginTop: 30,
+  buttonContainer: {
+    backgroundColor: '#03A4E6',
+    width: 378,
+    height: 59.53,
+    borderRadius: 15,
+    marginTop: 30,
 
-  justifyContent: 'center',
-  alignItems: 'center',
-},
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 
-buttonText: {
-  fontSize: 15,
-  fontFamily: 'Poppins-Regular', 
-  lineHeight: 19,
-  color: '#fff',
-},
-accountText:{
-  color:"#000000",
-  fontSize:15,
-  top:20,
-  alignSelf:"center"
-},
-accountText1:{
-  color:"#03A4E6",
-  fontSize:15,
-  top:20,
-  alignSelf:"center"
-},
- socialRow: {
+  buttonText: {
+    fontSize: 15,
+    fontFamily: 'Poppins-Regular',
+    lineHeight: 19,
+    color: '#fff',
+  },
+  accountText: {
+    color: "#000000",
+    fontSize: 15,
+    top: 20,
+    alignSelf: "center"
+  },
+  accountText1: {
+    color: "#03A4E6",
+    fontSize: 15,
+    top: 20,
+    alignSelf: "center"
+  },
+  socialRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: 12,
@@ -239,7 +240,7 @@ accountText1:{
     marginLeft: 8,
     fontFamily: 'Poppins-Medium',
     color: '#000',
-    fontWeight:"bold"
+    fontWeight: "bold"
   },
 
 });

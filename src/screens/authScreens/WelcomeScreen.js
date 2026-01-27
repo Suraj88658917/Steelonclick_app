@@ -12,11 +12,11 @@ const WelcomeScreen = ({navigation}) => {
             <Text style={styles.text}>Welcome to EaseInfra</Text>
             <Text style={styles.subtext}>Your Trusted Market Steelplace</Text>
             <TouchableOpacity style={styles.Button1}>
-                <Text  onPress={() => navigation.navigate("LoginScreen")}
+                <Text  onPress={() => navigation.navigate("RegisterScreen")}
                 style={styles.ButtonText}
                 >I want to buy steel</Text>
 
-                <TouchableOpacity  onPress={() => navigation.navigate("LoginScreen")}
+                <TouchableOpacity  onPress={() => navigation.navigate("RegisterScreen")}
                 style={styles.Button2}>
                     <Text style={styles.ButoonText1}>I want to sell steel</Text>
                 </TouchableOpacity>
