@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,14 +9,20 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import api from '../../api/api';
+import Back from '../../assets/images/back.svg'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const OTPScreen = ({ navigation, route }) => {
   const { mobile } = route.params;
 
   const OTP_LENGTH = 6;
+  const RESEND_TIME = 60;
+
   const [otp, setOtp] = useState(new Array(OTP_LENGTH).fill(''));
   const [loading, setLoading] = useState(false);
+  const [seconds, setSeconds] = useState(RESEND_TIME);
+  const [canResend, setCanResend] = useState(false);
 
   const inputs = useRef([]);
 
@@ -43,8 +49,8 @@ const OTPScreen = ({ navigation, route }) => {
       setLoading(true);
 
       await api.post('/user/login', {
-        mobile: mobile, 
-      }); 
+        mobile: mobile,
+      });
 
       const payload = {
         mobile: mobile,
@@ -55,6 +61,9 @@ const OTPScreen = ({ navigation, route }) => {
       console.log('OTP VERIFY PAYLOAD:', payload);
 
       const res = await api.post('/user/verifyLoginOtp', payload);
+
+      // save token---
+      await AsyncStorage.setItem('token' , res.data.token);
 
       console.log('OTP VERIFY SUCCESS:', res.data);
 
@@ -81,12 +90,17 @@ const OTPScreen = ({ navigation, route }) => {
 
   /* ===== RESEND OTP ===== */
   const resendOtp = async () => {
+    if (!canResend) return;
+
     try {
       await api.post('/user/login', {
         mobile: mobile,
       });
 
       Alert.alert('OTP Sent', 'New OTP sent successfully');
+
+      setSeconds(RESEND_TIME);
+      setCanResend(false);
     } catch (error) {
       Alert.alert(
         'Error',
@@ -95,8 +109,26 @@ const OTPScreen = ({ navigation, route }) => {
     }
   };
 
+  useEffect(() => {
+    let timer;
+
+    if (seconds > 0) {
+      timer = setTimeout(() => {
+        setSeconds(prev => prev - 1);
+      }, 1000);
+    } else {
+      setCanResend(true);
+    }
+
+    return () => clearTimeout(timer);
+  }, [seconds]);
+
   return (
     <View style={styles.container}>
+
+      <Back onPress={() => navigation.replace("LoginScreen")}
+        width={51} height={51} top={79} />
+
       <Text style={styles.title}>
         Two Factor{'\n'}Authentication
       </Text>
@@ -147,11 +179,21 @@ const OTPScreen = ({ navigation, route }) => {
       </TouchableOpacity>
 
       <View style={styles.resendContainer}>
-        <Text style={styles.resendText}>Didn’t receive the code?</Text>
-        <TouchableOpacity onPress={resendOtp}>
-          <Text style={styles.timerText}> Resend OTP</Text>
-        </TouchableOpacity>
+        {!canResend ? (
+          <Text style={styles.resendText}>
+            Didn’t receive the code? Resending in{' '}
+            <Text style={styles.timerText}>{seconds} secs</Text>
+          </Text>
+        ) : (
+          <>
+            <Text style={styles.resendText}>Didn’t receive the code? </Text>
+            <TouchableOpacity onPress={resendOtp}>
+              <Text style={styles.timerText}> Resend OTP</Text>
+            </TouchableOpacity>
+          </>
+        )}
       </View>
+
     </View>
   );
 };
@@ -168,8 +210,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'Poppins-Bold',
-    fontSize: 28,
-    marginTop: 150,
+    fontSize: 29,
+    marginTop: 110,
     color: '#000',
   },
   subtitle: {
@@ -193,11 +235,11 @@ const styles = StyleSheet.create({
     width: 51,
     height: 51,
     borderWidth: 0.5,
-    borderColor: '#e6e6e6',
+    borderColor: '#fcf7f7',
     borderRadius: 15,
     textAlign: 'center',
     fontSize: 16,
-    backgroundColor: '#f6f6f6',
+    backgroundColor: '#eae6e6',
     fontFamily: 'Poppins-Medium',
   },
   submitButton: {

@@ -3,7 +3,7 @@ import React from 'react'
 
 const HomeScreen = () => {
   return (
-    <View style={styles.container}>
+    <View>
       <Text>HomeScreen</Text>
     </View>
   )
@@ -11,12 +11,4 @@ const HomeScreen = () => {
 
 export default HomeScreen
 
-const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    justifyContent:"center",
-    alignContent:"center",
-    alignItems:"center",
-    backgroundColor:"#fff"
-  }
-})
+const styles = StyleSheet.create({})
